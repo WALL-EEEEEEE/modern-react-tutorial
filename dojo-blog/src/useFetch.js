@@ -6,29 +6,27 @@ const useFetch = (url) => {
   const [error, setError] = useState(null);
   useEffect(() => {
     const abortCont = new AbortController();
-    setTimeout(() => {
-      fetch(url, { signal: abortCont.signal })
-        .then((res) => {
-          if (!res.ok) {
-            setIsLoading(false);
-            throw Error(`failed to get resources from ${url}`);
-          }
-          return res.json();
-        })
-        .then((data) => {
-          setData(data);
+    fetch(url, { signal: abortCont.signal })
+      .then((res) => {
+        if (!res.ok) {
           setIsLoading(false);
-        })
-        .catch((err) => {
-          if (err.name == "AbortError") {
-            console.log("abort");
-          } else {
-            console.error(err);
-            setError(err);
-            setIsLoading(false);
-          }
-        });
-    }, 1000);
+          throw Error(`failed to get resources from ${url}`);
+        }
+        return res.json();
+      })
+      .then((data) => {
+        setData(data);
+        setIsLoading(false);
+      })
+      .catch((err) => {
+        if (err.name == "AbortError") {
+          console.log("abort");
+        } else {
+          console.error(err);
+          setError(err);
+          setIsLoading(false);
+        }
+      });
 
     return () => {
       abortCont.abort();
