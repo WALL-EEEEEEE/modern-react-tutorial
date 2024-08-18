@@ -10,11 +10,11 @@ export interface UIState {
 const MODALS: ModalMap = {
     TestModal: {
       id: 'TestModal',
-      open: true
+      open: false
     },
     LoginModal: {
       id: 'LoginModal',
-      open: true,
+      open: false,
       meta: {
         user: 'fedor'
       }
